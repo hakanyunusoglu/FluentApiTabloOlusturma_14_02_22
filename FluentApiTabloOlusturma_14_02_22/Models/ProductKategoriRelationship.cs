@@ -2,6 +2,7 @@
 {
     public class ProductKategoriRelationship
     {
+        public int PkrID { get; set; }
         public int KategoriID { get; set; }
         public Kategori Kategori { get; set; }
         public int ProductID { get; set; }

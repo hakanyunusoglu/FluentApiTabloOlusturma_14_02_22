@@ -35,7 +35,11 @@ namespace FluentApiTabloOlusturma_14_02_22.Models
             modelBuilder.Entity<Firma>().HasMany(x => x.Personeller).WithOne(x => x.Firma).HasForeignKey(x => x.FirID).OnDelete(DeleteBehavior.Cascade);
 
             //Çoktan çoğa ilişki tanımlama
-            modelBuilder.Entity<ProductKategoriRelationship>().HasKey(x => new { x.ProductID, x.KategoriID });
+            //modelBuilder.Entity<ProductKategoriRelationship>().HasKey(x => new { x.ProductID, x.KategoriID });
+            //Çoktan çoğa ilişki tanımlama v2
+            modelBuilder.Entity<ProductKategoriRelationship>().HasKey(x => x.PkrID);
+            modelBuilder.Entity<ProductKategoriRelationship>().HasOne(x => x.Product).WithMany(x => x.ProductKategori).HasForeignKey(x=>x.ProductID);
+            modelBuilder.Entity<ProductKategoriRelationship>().HasOne(x => x.Kategori).WithMany(x => x.KategoriProduct).HasForeignKey(x => x.KategoriID);
 
             //modelBuilder.Entity<Firma>().HasKey(x=>x.ID);
         }
