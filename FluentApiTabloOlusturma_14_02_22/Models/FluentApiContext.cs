@@ -10,6 +10,8 @@ namespace FluentApiTabloOlusturma_14_02_22.Models
         }
         public DbSet<Firma> Firmalar { get; set; }
         public DbSet<Personel> Personeller { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Kategori> Kategoriler { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,7 +21,6 @@ namespace FluentApiTabloOlusturma_14_02_22.Models
             modelBuilder.Entity<Firma>().Property(x => x.ID).HasColumnName("Anahtar");
             modelBuilder.Entity<Personel>().Property(x => x.ID).HasColumnName("Anahtar");
             modelBuilder.Entity<Personel>().Property(x => x.Tel).HasColumnName("TelNo").HasMaxLength(15);
-
             //NotMapped'ın fluentapi deki karşılığı şu şekildedir
             modelBuilder.Entity<Firma>().Ignore(x => x.FirmaLisansKey);
 
@@ -32,6 +33,9 @@ namespace FluentApiTabloOlusturma_14_02_22.Models
             //modelBuilder.Entity<Personel>().HasOne(x => x.Firma).WithMany(x => x.Personeller).HasForeignKey(x => x.FirID);
             //Çoktan bire ilişki tanımlama
             modelBuilder.Entity<Firma>().HasMany(x => x.Personeller).WithOne(x => x.Firma).HasForeignKey(x => x.FirID).OnDelete(DeleteBehavior.Cascade);
+
+            //Çoktan çoğa ilişki tanımlama
+            modelBuilder.Entity<ProductKategoriRelationship>().HasKey(x => new { x.ProductID, x.KategoriID });
 
             //modelBuilder.Entity<Firma>().HasKey(x=>x.ID);
         }
