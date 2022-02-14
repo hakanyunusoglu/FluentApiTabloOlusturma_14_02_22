@@ -10,5 +10,6 @@ namespace FluentApiTabloOlusturma_14_02_22.Models
         public int Adet { get; set; }
 
         public ICollection<ProductKategoriRelationship> ProductKategori { get; set; }
+        public ProductDetails ProductDetail { get; set; }
     }
 }

@@ -12,6 +12,8 @@ namespace FluentApiTabloOlusturma_14_02_22.Models
         public DbSet<Personel> Personeller { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Kategori> Kategoriler { get; set; }
+        public DbSet<ProductKategoriRelationship> ProductKategoriRelation { get; set; }
+        public DbSet<ProductDetails> ProductDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,12 +37,15 @@ namespace FluentApiTabloOlusturma_14_02_22.Models
             modelBuilder.Entity<Firma>().HasMany(x => x.Personeller).WithOne(x => x.Firma).HasForeignKey(x => x.FirID).OnDelete(DeleteBehavior.Cascade);
 
             //Çoktan çoğa ilişki tanımlama
-            //modelBuilder.Entity<ProductKategoriRelationship>().HasKey(x => new { x.ProductID, x.KategoriID });
-            //Çoktan çoğa ilişki tanımlama v2
+            modelBuilder.Entity<ProductKategoriRelationship>().HasKey(x => new { x.ProductID, x.KategoriID }); //Composite key oluşturma. Bir tabloda 2 tane birincil anahtar tanımlamak için kullanılır
+
             modelBuilder.Entity<ProductKategoriRelationship>().HasKey(x => x.PkrID);
             modelBuilder.Entity<ProductKategoriRelationship>().HasOne(x => x.Product).WithMany(x => x.ProductKategori).HasForeignKey(x=>x.ProductID);
             modelBuilder.Entity<ProductKategoriRelationship>().HasOne(x => x.Kategori).WithMany(x => x.KategoriProduct).HasForeignKey(x => x.KategoriID);
 
+            //Bire bir ilişki tanımlama
+            modelBuilder.Entity<ProductDetails>().HasOne(x => x.Product).WithOne(x => x.ProductDetail).HasForeignKey<ProductDetails>(x=>x.ProID);
+            
             //modelBuilder.Entity<Firma>().HasKey(x=>x.ID);
         }
     }
